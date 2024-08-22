@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History and Codes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <style>
+        body {
+          position: relative;
+          background-image: url('https://s0.rbk.ru/v6_top_pics/media/img/6/53/346916705155536.jpeg'); /* Замените на URL вашего изображения */
+          background-size: cover; /* Убедитесь, что изображение покрывает весь фон */
+          background-position: center;
+          color: #f0f0f0; /* Цвет текста для лучшей читаемости на фоне */
+          font-family: 'Arial', sans-serif; /* Установите шрифт */
+        }
+
+        .top-right-container {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          z-index: 1000; /* Убедитесь, что кнопка поверх других элементов */
+        }
+
+        #username {
+          font-size: 24px; /* Увеличьте размер шрифта */
+          font-weight: bold;
+          margin-bottom: 10px; /* Добавьте отступ снизу */
+        }
+
+        .exit-button {
+          font-weight: bold;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          background-color: #dc3545; /* Красный цвет кнопки */
+          color: white; /* Белый текст на красной кнопке */
+          transition: background-color 0.3s ease; /* Плавный переход цвета */
+        }
+
+        .exit-button:hover {
+          background-color: #c82333; /* Темнее при наведении */
+        }
+
+        .card {
+          margin-top: 80px; /* Увеличьте отступ, чтобы таблицы не перекрывались с кнопкой */
+          background-color: rgba(23, 23, 23, 0.8); /* Прозрачный фон карты */
+          border: none; /* Уберите границу */
+          border-radius: 10px; /* Скруглите углы */
+        }
+
+        .card-header {
+          background-color: #007bff; /* Синий цвет заголовка */
+          border-top-left-radius: 10px; /* Закруглите углы */
+          border-top-right-radius: 10px; /* Закруглите углы */
+        }
+
+        .table {
+          margin-top: 20px; /* Отступ сверху для таблицы */
+          border-radius: 10px; /* Скруглите углы */
+          overflow: hidden; /* Скрыть переполненные области */
+        }
+
+        th {
+          background-color: #007bff; /* Темно-синий фон для заголовков таблицы */
+          color: #ffffff; /* Белый цвет текста */
+          font-weight: bold; /* Жирный шрифт для заголовков */
+        }
+
+        td {
+          background-color: rgba(255, 255, 255, 0.1); /* Легкий фон для ячеек */
+          color: #e0e0e0; /* Цвет текста ячеек */
+        }
+
+        tr:hover {
+          background-color: rgba(255, 255, 255, 0.2); /* Эффект наведения на строку */
+        }
+
+        .title-cell {
+          font-size: 28px; /* Размер шрифта для заголовков карточек */
+          text-transform: uppercase; /* Приведение к верхнему регистру для заголовков */
+        }
+
+        @media (max-width: 768px) {
+          .top-right-container {
+            position: static; /* Сделать контейнер статичным на мобильных */
+            text-align: center; /* Центрировать текст на мобильных устройствах */
+            margin-bottom: 20px; /* Отступ снизу для мобильных */
+          }
+          #username {
+            font-size: 20px; /* Уменьшить размер шрифта на мобильных */
+          }
+          .exit-button {
+            width: 100%; /* Кнопка на всю ширину на мобильных */
+            margin-top: 10px; /* Отступ сверху */
+          }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-right-container">
+    <p id='username' th:text="${login}">Username</p>
+    <a href="http://localhost:8080/logout" class="btn exit-button text-white text-decoration-none">Выход</a>
+</div>
+
+<br><br>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2 class="title-cell">Clicks History</h2>
+            </div>
+            <div class="card-body">
+                <table id="clicksTable" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>X</th>
+                        <th>Y</th>              <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="click : ${clicks}">
+                        <td class="id-cell" th:text="${click.id}"></td>
+                        <td class="username-cell" th:text="${click.username}"></td>
+                        <td class="x-cell" th:text="${click.x}"></td>
+                        <td class="y-cell" th:text="${click.y}"></td>
+                        <td class="date-cell" th:text="${click.createDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2 class="title-cell">Codes</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Login</th>
+                        <th>Code</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="code : ${codes}">
+                        <td class="id-cell" th:text="${code.id}"></td>
+                        <td class="login-cell" th:text="${code.login}"></td>
+                        <td class="code-cell" th:text="${code.code}"></td>
+                        <td class="date-cell" th:text="${code.createDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('click', function(event) {
+      let x = event.clientX;
+      let y = event.clientY;
+      let login = document.getElementById('username').textContent.trim();
+      let currentDateTime = getCurrentDateTime();
+
+      fetch('http://localhost:8080/saveCoordinate?x=' + x + '&y=' + y + '&dateTime=' + encodeURIComponent(currentDateTime), {
+        method: 'POST'
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Coordinates and date-time saved successfully');
+          addRowToTable(x, y, currentDateTime, login);
+        } else {
+          console.log('Failed to save coordinates');
+        }
+      })
+      .catch(error => console.log('Error:', error));
+
+      function getCurrentDateTime() {
+        let now = new Date();
+        return now.toISOString(); // Формат даты ISO
+      }
+
+      function addRowToTable(x, y, dateTime, login) {
+        const table = document.getElementById('clicksTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        newRow.innerHTML = `<td></td><td>${login}</td><td>${x}</td><td>${y}</td><td>${dateTime}</td>`;
+      }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+version: "3"
+
+services:
+
+#  pg:
+#    container_name: pg-container
+#    image: postgres:16
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: insof
+#    ports:
+#      - "5445:5432"
+#    networks:
+#      - insof
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - insof
+
+  clicker-service:
+    container_name: clicker-service
+    depends_on:
+      - eureka-server
+    build:
+      context: ./clicker-service
+    environment:
+      PG_HOST: junction.proxy.rlwy.net
+      PG_PORT: 59693
+      PG_USERNAME: postgres
+      PG_PASSWORD: gjYfkfMNWexUBWFszhsnMFwByFdLZzzW
+      PG_DATABASE: railway
+      EUREKA_SERVER_URL: http://user:user@eureka-server:8761/eureka/
+    ports:
+      - "8083:8083"
+    networks:
+      - insof
+
+  user-service:
+    container_name: user-service
+    depends_on:
+      - eureka-server
+    build:
+      context: ./user-service
+    environment:
+      PG_HOST: junction.proxy.rlwy.net
+      PG_PORT: 59693
+
+      PG_USERNAME: postgres
+      PG_PASSWORD: gjYfkfMNWexUBWFszhsnMFwByFdLZzzW
+      PG_DATABASE: railway
+      EUREKA_SERVER_URL: http://user:user@eureka-server:8761/eureka/
+    ports:
+      - "8082:8082"
+    networks:
+      - insof
+
+  generator-service:
+    container_name: generator-service
+    depends_on:
+      - eureka-server
+    build:
+      context: ./generator-service
+    environment:
+      EUREKA_SERVER_URL: http://user:user@eureka-server:8761/eureka/
+    ports:
+      - "8081:8081"
+    networks:
+      - insof
+
+  dispatcher-service:
+    container_name: dispatcher-service
+    depends_on:
+      - eureka-server
+    build:
+      context: ./dispatcher-service
+    environment:
+      EUREKA_SERVER_URL: http://user:user@eureka-server:8761/eureka/
+    ports:
+      - "8080:8080"
+    networks:
+      - insof
+
+
+networks:
+  insof:
+    driver: bridge

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: generator-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 8081

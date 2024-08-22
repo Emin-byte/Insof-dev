@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: dispatcher-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    prefer-ip-address: true

@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: Me
+      changes:
+
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: login
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_date
+                  type: timestamp without time zone
+                  constraints:
+                    nullable: false
+
+
+        - createTable:
+           tableName: user_clicks
+           columns:
+
+             - column:
+                 name: id
+                 type: bigserial
+                 constraints:
+                   primaryKey: true
+
+             - column:
+                 name: username
+                 type: varchar(255)
+                 constraints:
+                   nullable: false
+
+             - column:
+                 name: create_date
+                 type: timestamp without time zone
+                 constraints:
+                   nullable: false
+
+             - column:
+                 name: x
+                 type: varchar
+                 constraints:
+                   nullable: false
+
+             - column:
+                 name: y
+                 type: varchar
+                 constraints:
+                   nullable: false
