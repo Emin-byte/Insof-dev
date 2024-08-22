@@ -119,6 +119,10 @@ public class MainController {
     private String getAccessTokenIfValid(HttpServletRequest request) {
         var cookies = request.getCookies();
 
+        if(cookies==null){
+            return null;
+        }
+
         return Arrays.stream(cookies)
                 .filter(cookie -> "access-token".equals(cookie.getName()))
                 .map(Cookie::getValue)
